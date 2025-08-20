@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { X, Menu } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface NavItem {
   label: string;
@@ -22,10 +23,10 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="shadow-lg">
+    <div className="shadow-lg bg-[#161616]">
       <div className="flex items-center justify-between px-6 py-3">
         <Link href="/">
-          <h1 className="text-3xl font-bold">AngerChat</h1>
+          <h1 className="text-3xl text-[#FFF] font-bold">AngerChat</h1>
         </Link>
 
         <div className="hidden md:flex gap-8">
@@ -33,10 +34,11 @@ const Navbar = () => {
             <div key={index} className="relative">
               <Link
                 href={item.href}
-                className={`text-[1.2rem] ${
-                  pathname === item.href &&
-                  "before:absolute before:h-2.5 before:w-2.5 before:rounded-2xl before:-top-1 before:-right-2 before:bg-[#333]"
-                }`}
+                className={`text-[1.2rem] text-[#FFF] hover:before:absolute hover:before:h-2.5 hover:before:w-2.5 hover:before:rounded-2xl 
+                  hover:before:-top-1 hover:before:-right-2 hover:before:bg-[#00A19C] transition-all ${
+                    pathname === item.href &&
+                    "before:absolute before:h-2.5 before:w-2.5 before:rounded-2xl before:-top-1 before:-right-2 before:bg-[white]"
+                  }`}
               >
                 {item.label}
               </Link>
@@ -46,8 +48,11 @@ const Navbar = () => {
 
         <div className="flex items-center">
           {!signedUp && (
-            <button className="hidden md:block border-2 rounded-md text-[1.1rem] px-4 py-1.5 cursor-pointer hover:bg-black hover:text-white transition-all">
-              Sign up
+            <button
+              className="hidden md:block bg-gradient-to-r from-white to-[#00A19C] text-black font-bold border-2 rounded-md text-[1.1rem] 
+              px-5 py-1.5 cursor-pointer shadow-md shadow-white/10 hover:opacity-90 hover:shadow-lg transition-all"
+            >
+              Sign Up
             </button>
           )}
 
@@ -55,26 +60,44 @@ const Navbar = () => {
             className="md:hidden cursor-pointer"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+            {isOpen ? (
+              <X size={28} className="text-[#FFF]" />
+            ) : (
+              <Menu size={28} className="text-[#FFF]" />
+            )}
           </button>
         </div>
       </div>
 
-      {isOpen && (
-        <div className="flex flex-col px-6 py-3 space-y-3 md:hidden bg-white border-t">
-          {navItems.map((item, index) => (
-            <Link key={index} href={item.href} className="text-[1.2rem]">
-              {item.label}
-            </Link>
-          ))}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="flex flex-col px-6 py-3 space-y-3 md:hidden  bg-[#161616] border-t"
+          >
+            {navItems.map((item, index) => (
+              <Link
+                key={index}
+                href={item.href}
+                className="text-[1.2rem] text-[#FFF]"
+              >
+                {item.label}
+              </Link>
+            ))}
 
-          {!signedUp && (
-            <button className="block md:hidden border-2 rounded-md text-[1.1rem] px-4 py-1.5 hover:bg-black hover:text-white transition-all">
-              Sign up
-            </button>
-          )}
-        </div>
-      )}
+            {!signedUp && (
+              <button
+                className="block md:hidden bg-gradient-to-r from-white to-[#00A19C] text-black font-bold border-2 rounded-md 
+              text-[1.1rem] px-4 py-1.5 cursor-pointer shadow-md shadow-white/10 hover:opacity-90 hover:shadow-lg transition-all"
+              >
+                Sign up
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
