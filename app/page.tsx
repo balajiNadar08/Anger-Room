@@ -1,11 +1,12 @@
 import Navbar from "@/components/Navbar";
+import Feature from "@/components/Feature";
+import { User, Globe, Lock } from 'lucide-react';
 
 export default function Home() {
   return (
     <div className="flex flex-col">
       <Navbar />
 
-      {/* Hero Section */}
       <div className="flex flex-col items-center justify-center pt-20 md:pt-32 lg:pt-40 pb-10 md:pb-14 gap-6 md:gap-8 lg:gap-10 px-4 md:px-6 lg:px-8">
         <div className="flex flex-col gap-2 md:gap-3 text-3xl md:text-4xl lg:text-5xl font-extrabold text-center max-w-4xl">
           <p className="leading-tight">Welcome to AngerRoom🔥</p>
@@ -34,21 +35,42 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Gradient Box Section */}
+
       <div className="flex items-center justify-center w-full px-4 md:px-6 lg:px-8">
         <div className="bg-gradient-to-tl from-[#FFF] to-[#00A19C] h-64 md:h-80 lg:h-[40rem] 
         w-full md:w-[85%] lg:w-[70%] rounded-xl md:rounded-2xl"></div>
       </div>
 
-      {/* Features Section */}
-      <div className="flex flex-col items-center text-center pt-16 md:pt-20 pb-16 md:pb-20 lg:pb-50 px-4 md:px-6 lg:px-8">
-        <div className="max-w-4xl">
+
+      <div className="flex flex-col items-center pt-16 md:pt-30 pb-16 md:pb-20 lg:pb-50 px-4 md:px-6 lg:px-8">
+        <div className="max-w-4xl mb-6 text-center">
           <p className="text-2xl md:text-3xl font-bold pb-2 leading-tight">
             Features That Let You Rant Freely
           </p>
           <p className="text-gray-400 text-sm md:text-base lg:text-lg">
             A safe and anonymous space to share your thoughts with the world.
           </p>
+        </div>
+
+        <div className="max-w-5xl pt-8 mb-30 grid justify-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <Feature
+            title="Login" 
+            content="Join instantly as a guest (anonymous) or sign in with google account for a more personal experience."
+          >
+            <User />
+          </Feature>
+          <Feature
+            title="Global Chatroom" 
+            content="Shared space where everyone's messages appear in real time, creating a sense of community ranting!"
+          >
+            <Globe />
+          </Feature>
+          <Feature
+            title="Safe Space" 
+            content="A platform designed for people to freely share feelings, thoughts and frustrations without fear of judgment."
+          >
+            <Lock />
+          </Feature>
         </div>
       </div>
     </div>
