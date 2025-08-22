@@ -23,7 +23,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="shadow-lg bg-[#161616]">
+    <div className="fixed top-0 left-0 w-full bg-white/5 backdrop-blur-md border border-white/10 z-20 shadow-lg ">
       <div className="flex items-center justify-between px-6 py-3">
         <Link href="/">
           <h1 className="text-3xl text-[#FFF] font-bold">AngerChat</h1>
@@ -75,7 +75,7 @@ const Navbar = () => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="flex flex-col px-6 py-3 space-y-3 md:hidden  bg-[#161616] border-t"
+            className="flex flex-col px-6 py-3 space-y-3 md:hidden bg-white/5 backdrop-blur-md border border-white/10"
           >
             {navItems.map((item, index) => (
               <Link

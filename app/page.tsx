@@ -7,8 +7,8 @@ export default function Home() {
     <div className="flex flex-col">
       <Navbar />
 
-      <div className="flex flex-col items-center justify-center pt-20 md:pt-32 lg:pt-40 pb-10 md:pb-14 gap-6 md:gap-8 lg:gap-10 px-4 md:px-6 lg:px-8">
-        <div className="flex flex-col gap-2 md:gap-3 text-3xl md:text-4xl lg:text-5xl font-extrabold text-center max-w-4xl">
+      <div className="flex flex-col items-center justify-center pt-[10rem] md:pt-[12rem] pb-26 gap-8 md:gap-12 lg:gap-10 px-4 md:px-6 lg:px-8">
+        <div className="flex flex-col gap-2 md:gap-3 text-2xl md:text-4xl lg:text-5xl font-extrabold text-center max-w-4xl">
           <p className="leading-tight">Welcome to AngerRoom🔥</p>
           <p className="bg-gradient-to-r to-[#00A19C] py-1 leading-tight">
             Rant Freely, Stay Anonymous👀
@@ -42,8 +42,8 @@ export default function Home() {
       </div>
 
 
-      <div className="flex flex-col items-center pt-16 md:pt-30 pb-16 md:pb-20 lg:pb-50 px-4 md:px-6 lg:px-8">
-        <div className="max-w-4xl mb-6 text-center">
+      <div className="flex flex-col items-center pt-24 md:pt-30 pb-16 md:pb-20 lg:pb-50 px-4 md:px-8 lg:px-8">
+        <div className="max-w-4xl md:pb-4 text-center">
           <p className="text-2xl md:text-3xl font-bold pb-2 leading-tight">
             Features That Let You Rant Freely
           </p>
@@ -73,6 +73,8 @@ export default function Home() {
           </Feature>
         </div>
       </div>
+
+      
     </div>
   );
 }
