@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Feature from "@/components/Feature";
+import Testimonial from "@/components/Testimonial";
 import { User, Globe, Lock } from 'lucide-react';
 
 export default function Home() {
@@ -42,7 +43,7 @@ export default function Home() {
       </div>
 
 
-      <div className="flex flex-col items-center pt-24 md:pt-30 pb-16 md:pb-20 lg:pb-50 px-4 md:px-8 lg:px-8">
+      <div className="flex flex-col items-center pt-24 md:pt-30 lg:pb-8 px-4 md:px-8 lg:px-8">
         <div className="max-w-4xl md:pb-4 text-center">
           <p className="text-2xl md:text-3xl font-bold pb-2 leading-tight">
             Features That Let You Rant Freely
@@ -52,7 +53,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="max-w-5xl pt-8 mb-30 grid justify-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="max-w-5xl pt-8 grid justify-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <Feature
             title="Login" 
             content="Join instantly as a guest (anonymous) or sign in with google account for a more personal experience."
@@ -75,6 +76,34 @@ export default function Home() {
       </div>
 
       
+      <div className="flex flex-col items-center pt-20 md:pt-24 pb-16 md:pb-20 lg:pb-50 px-4 md:px-8">
+        <div className="max-w-4xl md:pb-4 text-center">
+          <p className="text-2xl md:text-3xl font-bold pb-2 leading-tight">
+            The After-Rant Glow ✨
+          </p>
+          <p className="text-gray-400 text-sm md:text-base lg:text-lg">
+            Here's how AngerRoom is helping people cool down.
+          </p>
+        </div>
+
+        <div className="max-w-5xl pt-8 mb-30 grid justify-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <Testimonial 
+            name="Aarav R."
+            content="Whenever college stress builds up, I hop on AngerRoom. Ten minutes of ranting here feels better than an hour of complaining to friends."
+            imagePath="/assets/pfp1.webp"
+          />
+          <Testimonial 
+            name="Zoya K."
+            content="Honestly, I didn't expect typing out my anger would feel so freeing. It's like yelling into the void, but in a good way. I actually laughed at the end!"
+            imagePath="/assets/pfp2.webp"
+          />
+          <Testimonial 
+            name="Aditya M."
+            content="I love how private it feels. I can rage about work, exams or random stuff and then move on with a clear head. Highly recommend!"
+            imagePath="/assets/pfp3.webp"
+          />
+        </div>
+      </div>
     </div>
   );
 }
