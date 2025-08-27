@@ -5,12 +5,12 @@ import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBfLuo75BUWrLxelpxh1EYUDwDsk32bYRk",
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
   authDomain: "angerroom-chat.firebaseapp.com",
   projectId: "angerroom-chat",
   storageBucket: "angerroom-chat.firebasestorage.app",
   messagingSenderId: "877334705998",
-  appId: "1:877334705998:web:81f742d83a745472c8101f",
+  appId: process.env.NEXT_PUBLIC_APP_ID,
   measurementId: "G-TBQZDZLPMP"
 };
 
