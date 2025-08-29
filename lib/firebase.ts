@@ -1,7 +1,7 @@
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
 import { getFirestore, Firestore } from "firebase/firestore";
 import { getAuth, Auth } from "firebase/auth";
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 
 const firebaseConfig = {
@@ -14,7 +14,7 @@ const firebaseConfig = {
   measurementId: "G-TBQZDZLPMP"
 };
 
-let app: FirebaseApp;
+export let app: FirebaseApp;
 if (!getApps().length) {
   app = initializeApp(firebaseConfig);
 } else {
@@ -23,6 +23,3 @@ if (!getApps().length) {
 
 export const db: Firestore = getFirestore(app);
 export const auth: Auth = getAuth(app);
-
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);

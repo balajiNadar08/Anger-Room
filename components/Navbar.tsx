@@ -49,12 +49,14 @@ const Navbar = () => {
 
         <div className="flex items-center">
           {!signedUp && (
-            <button
-              className="hidden md:block bg-gradient-to-r from-white to-[#00A19C] text-black font-bold border-2 rounded-md text-[1.1rem] 
+            <Link href={"/login"}>
+              <button
+                className="hidden md:block bg-gradient-to-r from-white to-[#00A19C] text-black font-bold border-2 rounded-md text-[1.1rem] 
               px-5 py-1.5 cursor-pointer shadow-md shadow-white/10 hover:opacity-90 hover:shadow-lg transition-all"
-            >
-              Sign Up
-            </button>
+              >
+                Sign Up
+              </button>
+            </Link>
           )}
 
           <button
