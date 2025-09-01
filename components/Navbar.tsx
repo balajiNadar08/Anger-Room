@@ -91,12 +91,14 @@ const Navbar = () => {
             ))}
 
             {!signedUp && (
-              <button
-                className="block md:hidden bg-gradient-to-r from-white to-[#00A19C] text-black font-bold border-2 rounded-md 
+              <Link href={"/login"}>
+                <button
+                  className="block w-full md:hidden bg-gradient-to-r from-white to-[#00A19C] text-black font-bold border-2 rounded-md 
               text-[1.1rem] px-4 py-1.5 cursor-pointer shadow-md shadow-white/10 hover:opacity-90 hover:shadow-lg transition-all"
-              >
-                Sign up
-              </button>
+                >
+                  Sign up
+                </button>
+              </Link>
             )}
           </motion.div>
         )}

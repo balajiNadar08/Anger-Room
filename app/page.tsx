@@ -7,8 +7,6 @@ import { User, Globe, Lock } from "lucide-react";
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <Navbar />
-
       <div className="flex flex-col items-center justify-center pt-[10rem] md:pt-[12rem] pb-26 gap-8 md:gap-12 lg:gap-10 px-4 md:px-6 lg:px-8">
         <div className="flex flex-col gap-2 md:gap-3 text-2xl md:text-4xl lg:text-5xl font-extrabold text-center max-w-4xl">
           <p className="leading-tight">Welcome to AngerRoom🔥</p>
