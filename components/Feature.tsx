@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { User, Globe, Lock } from "lucide-react";
 
 interface FeatureProps {
   children: ReactNode;

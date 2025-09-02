@@ -1,4 +1,3 @@
-
 interface FeedbackProps {
   name: string;
   content: string;
