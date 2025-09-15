@@ -21,10 +21,10 @@ const page = () => {
           <p>
             Hi, I'm <span className="font-bold text-cyan-300">Balaji</span>, the
             developer of{" "}
-            <span className="font-bold text-cyan-300">AngerRoom</span>. I'm also
-            a full-stack developer passionate about creating beautiful,
-            functional and user-friendly applications that I intend to use and
-            share with the world.
+            <span className="font-bold text-cyan-300">AngerRoom</span>. I'm a
+            full-stack developer passionate about creating beautiful, functional
+            and user-friendly applications that I intend to use and share with
+            the world.
           </p>
           <p>
             {" "}
@@ -51,9 +51,13 @@ const page = () => {
       </div>
 
       <div>
-        <Link href={"/test-firebase"} className="text-lg font-bold px-6 py-2 rounded-3xl bg-gradient-to-r from-white to-[#00A19C] text-black cursor-pointer">Back to Chat</Link>
+        <Link
+          href={"/test-firebase"}
+          className="text-lg font-bold px-6 py-2 rounded-3xl bg-gradient-to-r from-white to-[#00A19C] text-black cursor-pointer"
+        >
+          Back to Chat
+        </Link>
       </div>
-      
     </div>
   );
 };

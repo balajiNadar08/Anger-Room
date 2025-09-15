@@ -20,7 +20,7 @@ const Navbar = () => {
     { label: "Chat", href: "/test-firebase" },
     // { label: "Chat", href: "/chat" },
     { label: "About DEV", href: "/about-dev" },
-    { label: "Contact", href: "/contact" },
+    { label: "Report", href: "/report" },
   ];
 
   return (
