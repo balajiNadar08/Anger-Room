@@ -1,6 +1,14 @@
+"use client";
 import Link from "next/link";
+import { useState } from "react";
+import { MoveLeft } from 'lucide-react';
 
 const page = () => {
+  const [feedbackType, setFeedbackType] = useState("");
+  const [subject, setSubject] = useState("");
+  const [description, setDescription] = useState("");
+  const [email, setEmail] = useState("");
+
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col mt-[2rem] gap-[2rem] px-4 py-20 items-center">
       <div className="text-center">
@@ -22,8 +30,9 @@ const page = () => {
             <select
               name="feedback"
               id="feedback"
-              value={""}
-              // onChange={}
+              value={feedbackType}
+              required
+              onChange={(e) => setFeedbackType(e.target.value)}
               className="w-full block rounded text-md px-3 py-2 bg-white/5 border border-white/10 outline-none focus:border-[#00A19C] transition-colors h-[42px] text-white"
             >
               <option value="" disabled className="text-gray-500">
@@ -52,8 +61,11 @@ const page = () => {
             </label>
             <input
               type="text"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
               placeholder="e.g., Dark mode issue"
               className="block w-full rounded text-md px-3 py-2 bg-white/5 border border-white/10 outline-none focus:border-[#00A19C] transition-colors text-white"
+              required
             />
           </div>
           <div>
@@ -61,13 +73,16 @@ const page = () => {
               htmlFor="description"
               className="text-sm text-gray-300 block mb-2"
             >
-              Subject
+              Description
             </label>
             <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               name="description"
               id="description"
               placeholder="Please provide as much as detail as possible..."
               className="block w-full rounded text-md px-3 py-2 bg-white/5 border border-white/10 outline-none focus:border-[#00A19C] transition-colors text-white"
+              required
             ></textarea>
           </div>
           <div>
@@ -76,6 +91,8 @@ const page = () => {
             </label>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="So we can follow up with you"
               className="block w-full rounded text-md px-3 py-2 bg-white/5 border border-white/10 outline-none focus:border-[#00A19C] transition-colors text-white"
             />
@@ -92,9 +109,9 @@ const page = () => {
       <div>
         <Link
           href={"/test-firebase"}
-          className="text-lg font-bold px-6 py-2 rounded-3xl bg-gradient-to-r from-white to-[#00A19C] text-black cursor-pointer"
+          className=" flex items-center text-lg font-bold px-6 py-2 rounded-3xl bg-gradient-to-r from-white to-[#00A19C] text-black cursor-pointer"
         >
-          Back to Chat
+          <MoveLeft className="inline mr-2" /> Back to Chat
         </Link>
       </div>
     </div>

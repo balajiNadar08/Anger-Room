@@ -58,37 +58,49 @@ export default function TestFirebasePage() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Firebase Test</h1>
-      <input
-        ref={userInputRef}
-        type="text"
-        placeholder="Rant 🔥🔥🔥..."
-        className="px-4 py-2 outline-none text-black bg-white rounded"
-      />
-      <button
-        onClick={addMessage}
-        className="px-4 py-2 mx-3 bg-blue-600 text-white rounded cursor-pointer active:scale-105"
-      >
-        Add Message
-      </button>
-      <button
-        onClick={handleRemoveAll}
-        className="px-4 py-2 bg-red-600 text-white rounded cursor-pointer active:scale-105"
-      >
-        Remove All
-      </button>
+    <div className="min-h-screen flex flex-col justify-end relative overflow-hidden">
+      <div className="fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08)_0%,transparent_30%)]"></div>
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_80%_70%,rgba(0,161,156,0.2)_0%,transparent_40%)] blur-2xl"></div>
+        </div>
+      </div>
 
-      <ul className="mt-4 space-y-2">
-        {messages.map((m, i) => (
-          <li key={i} className="px-4 py-4 border rounded-2xl">
-            {m.text} <br />
-            <span className="text-gray-500 text-sm">
-              ({m.createdAt.toString()})
-            </span>
-          </li>
-        ))}
-      </ul>
+      <div className="relative z-10 max-w-5xl mx-auto w-full flex flex-col gap-[2rem] px-4 py-8">
+        <ul className="space-y-2 flex-1 flex flex-col items-start">
+          {messages.map((m, i) => (
+            <li key={i} className="inline-block px-4 py-4 border border-white/20 rounded-2xl backdrop-blur-sm bg-white/5">
+              <span className="text-white">{m.text}</span>
+              {/* <br />
+              <span className="text-gray-400 text-sm">
+                ({m.createdAt.toString()})
+              </span> */}
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex flex-wrap gap-2">
+          <input
+            ref={userInputRef}
+            type="text"
+            placeholder="Rant 🔥🔥🔥..."
+            className="flex-1 min-w-0 px-4 py-2 outline-none text-black bg-white rounded"
+            // onKeyPress={handleKeyPress}
+          />
+          <button
+            onClick={addMessage}
+            className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer active:scale-105 transition-transform"
+          >
+            Add Message
+          </button>
+          <button
+            onClick={handleRemoveAll}
+            className="px-4 py-2 bg-red-600 text-white rounded cursor-pointer active:scale-105 transition-transform"
+          >
+            Remove All
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

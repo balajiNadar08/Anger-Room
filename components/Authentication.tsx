@@ -36,7 +36,7 @@ const Authentication = ({
         const userCred = await signIn(userEmail, userPassword);
         console.log("Logged in:", userCred.user.uid);
       }
-      router.push("/");
+      router.push("/test-firebase");
     } catch (err: any) {
       console.error(err);
       setError(err.message);
