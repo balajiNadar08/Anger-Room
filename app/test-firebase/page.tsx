@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { db } from "@/lib/firebase";
+import { SendHorizontal } from 'lucide-react';
 import {
   collection,
   addDoc,
@@ -91,11 +92,12 @@ export default function TestFirebasePage() {
             onClick={addMessage}
             className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer active:scale-105 transition-transform"
           >
-            Add Message
+            {/* Add Message */}
+            <SendHorizontal />
           </button>
           <button
             onClick={handleRemoveAll}
-            className="px-4 py-2 bg-red-600 text-white rounded cursor-pointer active:scale-105 transition-transform"
+            className="hidden px-4 py-2 bg-red-600 text-white rounded cursor-pointer active:scale-105 transition-transform"
           >
             Remove All
           </button>
