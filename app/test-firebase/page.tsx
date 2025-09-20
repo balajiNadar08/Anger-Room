@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { db } from "@/lib/firebase";
-import { SendHorizontal } from 'lucide-react';
+import { SendHorizontal, Trash2 } from 'lucide-react';
 import {
   collection,
   addDoc,
@@ -59,7 +59,7 @@ export default function TestFirebasePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-end relative overflow-hidden">
+    <div className="flex flex-col justify-end relative overflow-visible">
       <div className="fixed inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute w-full h-full bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08)_0%,transparent_30%)]"></div>
@@ -67,7 +67,7 @@ export default function TestFirebasePage() {
         </div>
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto w-full flex flex-col gap-[2rem] px-4 py-8">
+      <div className="relative z-10 max-w-5xl mx-auto mt-[2.5rem] w-full flex flex-col gap-[2rem] px-4 py-8">
         <ul className="space-y-2 flex-1 flex flex-col items-start">
           {messages.map((m, i) => (
             <li key={i} className="inline-block px-4 py-4 border border-white/20 rounded-2xl backdrop-blur-sm bg-white/5">
@@ -97,9 +97,10 @@ export default function TestFirebasePage() {
           </button>
           <button
             onClick={handleRemoveAll}
-            className="hidden px-4 py-2 bg-red-600 text-white rounded cursor-pointer active:scale-105 transition-transform"
+            className="px-4 py-2 bg-red-600 text-white rounded cursor-pointer active:scale-105 transition-transform"
           >
-            Remove All
+            {/* Remove All */}
+            <Trash2 />
           </button>
         </div>
       </div>

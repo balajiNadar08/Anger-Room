@@ -80,7 +80,7 @@ const page = () => {
               onChange={(e) => setDescription(e.target.value)}
               name="description"
               id="description"
-              placeholder="Please provide as much as detail as possible..."
+              placeholder="Please provide as much details as possible..."
               className="block w-full rounded text-md px-3 py-2 bg-white/5 border border-white/10 outline-none focus:border-[#00A19C] transition-colors text-white"
               required
             ></textarea>
