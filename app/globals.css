@@ -26,3 +26,25 @@ body {
   /* font-family: Arial, Helvetica, sans-serif; */
   font-family: "Inter", sans-serif;
 }
+
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00A19C;
+  border-radius: 9999px;
+  /* rounded */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00A19C transparent;
+}
