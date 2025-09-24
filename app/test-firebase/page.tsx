@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { db } from "@/lib/firebase";
+import { db, auth } from "@/lib/firebase";
 import { SendHorizontal, Trash2 } from "lucide-react";
 import {
   collection,
@@ -11,11 +11,15 @@ import {
   DocumentData,
   QueryDocumentSnapshot,
   onSnapshot,
+  serverTimestamp,
+  query,
+  orderBy,
 } from "firebase/firestore";
 
 interface Message {
   text: string;
   createdAt: Date;
+  uid: string;
 }
 
 export default function TestFirebasePage() {
@@ -24,13 +28,20 @@ export default function TestFirebasePage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "messages"), (snapshot) => {
+    const q = query(
+      collection(db, "messages"),
+      orderBy("createdAt", "asc"),
+      orderBy("__name__", "asc") // if 2 or more msgs have same time-stamp
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       const data: Message[] = snapshot.docs.map(
         (doc: QueryDocumentSnapshot<DocumentData>) => {
           const d = doc.data();
           return {
-            text: d.text,
+            text: d.text as string,
             createdAt: d.createdAt?.toDate?.() ?? new Date(),
+            uid: d.uid as string,
           };
         }
       );
@@ -40,7 +51,6 @@ export default function TestFirebasePage() {
     return () => unsubscribe();
   }, []);
 
-  // Scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -48,28 +58,27 @@ export default function TestFirebasePage() {
   const addMessage = async () => {
     if (userInputRef.current?.value?.trim()) {
       await addDoc(collection(db, "messages"), {
-        text: userInputRef.current?.value,
-        createdAt: new Date(),
+        text: userInputRef.current.value,
+        createdAt: serverTimestamp(), // use server time
+        uid: auth.currentUser?.uid,
       });
-      if (userInputRef.current) {
-        userInputRef.current.value = "";
-      }
+      userInputRef.current.value = "";
     }
   };
 
   const handleRemoveAll = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "messages"));
-      const deletePromises = querySnapshot.docs.map((document) => {
-        deleteDoc(doc(db, "messages", document.id));
-      });
+      const deletePromises = querySnapshot.docs.map((document) =>
+        deleteDoc(doc(db, "messages", document.id))
+      );
       await Promise.all(deletePromises);
     } catch (error) {
       console.error("❌ Error deleting messages:", error);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       addMessage();
     }
@@ -77,7 +86,6 @@ export default function TestFirebasePage() {
 
   return (
     <div className="h-screen flex flex-col relative pt-[4rem]">
-      {/* Background Effects */}
       <div className="fixed inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute w-full h-full bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08)_0%,transparent_30%)]"></div>
@@ -86,7 +94,6 @@ export default function TestFirebasePage() {
       </div>
 
       <div className="relative z-10 h-full max-w-5xl mx-auto w-full flex flex-col px-4">
-        {/* Messages Container */}
         <div
           className="flex-1 overflow-y-auto py-4 mb-[4rem]"
           style={{
@@ -117,13 +124,25 @@ export default function TestFirebasePage() {
               </p>
             </div>
           ) : (
-            <div className="space-y-2 flex flex-col items-start min-h-full justify-end">
+            <div className="space-y-2 flex flex-col min-h-full justify-end">
               {messages.map((m, i) => (
                 <div
                   key={i}
-                  className="inline-block px-4 py-2 border border-white/20 rounded-lg backdrop-blur-sm bg-white/5"
+                  className={`flex w-full ${
+                    m.uid === auth.currentUser?.uid
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
                 >
-                  <span className="text-white">{m.text}</span>
+                  <div
+                    className={`px-4 py-2 rounded-lg max-w-xs break-words ${
+                      m.uid === auth.currentUser?.uid
+                        ? "bg-[#02e1da] text-black rounded-br-none ml-auto"
+                        : "bg-white/5 border border-white/20 text-white rounded-bl-none mr-auto"
+                    }`}
+                  >
+                    {m.text}
+                  </div>
                 </div>
               ))}
               <div ref={messagesEndRef} />
@@ -131,7 +150,6 @@ export default function TestFirebasePage() {
           )}
         </div>
 
-        {/* Input Container - Fixed at Bottom */}
         <div className="py-4 fixed bottom-0 left-0 w-full">
           <div className="max-w-5xl mx-auto px-4">
             <div className="flex items-center gap-2 w-full">
@@ -140,7 +158,7 @@ export default function TestFirebasePage() {
                 type="text"
                 placeholder="Rant 🔥🔥🔥..."
                 className="flex-1 min-w-0 px-4 py-2 outline-none text-black bg-white rounded"
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
               />
               <button
                 onClick={addMessage}
