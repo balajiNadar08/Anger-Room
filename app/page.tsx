@@ -2,6 +2,7 @@ import Feature from "@/components/Feature";
 import Testimonial from "@/components/Testimonial";
 import Footer from "@/components/Footer";
 import { User, Globe, Lock } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -24,13 +25,15 @@ export default function Home() {
         </div>
 
         <div>
-          <button
-            className="text-[#0A0A0A] text-base md:text-lg font-semibold rounded-full bg-gradient-to-r from-white to-[#00A19C] 
+          <Link href="/test-firebase">
+            <button
+              className="text-[#0A0A0A] text-base md:text-lg font-semibold rounded-full bg-gradient-to-r from-white to-[#00A19C] 
             py-3 px-8 md:py-3 md:px-10 cursor-pointer hover:-translate-y-1 transition-all ease-in-out duration-500
             active:scale-95 touch-manipulation"
-          >
-            Start Ranting 😁
-          </button>
+            >
+              Start Ranting 😁
+            </button>
+          </Link>
         </div>
       </div>
 

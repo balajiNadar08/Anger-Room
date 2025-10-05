@@ -108,9 +108,9 @@ const Authentication = ({
           </div>
         </div>
 
-        <button className="font-bold py-2 mt-4 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 cursor-pointer">
+        <Link href="/profile-setup" className="font-bold text-center py-2 mt-4 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 cursor-pointer">
           Continue as Guest
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -5,6 +5,34 @@ const Page = () => {
   const [username, setUsername] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
+  const [profileAvatar, setProfileAvatar] = useState(
+    `/avatar/${gender}/${gender}-pfp-1.webp`
+  );
+
+  const maleAvatars = [
+    "/avatar/male/male-pfp-1.webp",
+    "/avatar/male/male-pfp-2.webp",
+    "/avatar/male/male-pfp-3.webp",
+    "/avatar/male/male-pfp-4.webp",
+    "/avatar/male/male-pfp-5.webp",
+    "/avatar/male/male-pfp-6.webp",
+  ];
+
+  const femaleAvatars = [
+    "/avatar/female/female-pfp-1.webp",
+    "/avatar/female/female-pfp-2.webp",
+    "/avatar/female/female-pfp-3.webp",
+    "/avatar/female/female-pfp-4.webp",
+    "/avatar/female/female-pfp-5.webp",
+    "/avatar/female/female-pfp-6.webp",
+  ];
+
+  const displayedAvatars =
+    gender === "male"
+      ? maleAvatars
+      : gender === "female"
+      ? femaleAvatars
+      : [...maleAvatars, ...femaleAvatars];
 
   return (
     <div className="max-w-5xl flex mx-auto items-center p-4 relative overflow-hidden">
@@ -91,6 +119,23 @@ const Page = () => {
                     Prefer not to say
                   </option>
                 </select>
+              </div>
+            </div>
+
+            <div className="flex flex-col rounded w-full border items-center bg-white/5 border-white/10">
+              <p className="text-sm text-gray-300 block mt-4">
+                Select your profile avatar
+              </p>
+              <div className="my-4 grid grid-cols-3 gap-12">
+                {displayedAvatars.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    alt={`avatar-${index}`}
+                    className="w-36 h-36 object-cover rounded-full border cursor-pointer hover:scale-102 transition"
+                    onClick={() => setProfileAvatar(src)}
+                  />
+                ))}
               </div>
             </div>
 
