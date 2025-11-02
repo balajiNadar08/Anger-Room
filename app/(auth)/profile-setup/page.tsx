@@ -1,13 +1,18 @@
 "use client";
+
 import { useState } from "react";
+import { auth, db } from "../../../lib/firebase"
+import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
+
   const [username, setUsername] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
-  const [profileAvatar, setProfileAvatar] = useState(
-    `/avatar/${gender}/${gender}-pfp-1.webp`
-  );
+  const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const maleAvatars = [
     "/avatar/male/male-pfp-1.webp",
@@ -34,6 +39,43 @@ const Page = () => {
       ? femaleAvatars
       : [...maleAvatars, ...femaleAvatars];
 
+  // ✅ handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const user = auth.currentUser;
+    if (!user) {
+      alert("You must be signed in to set up your profile.");
+      return;
+    }
+
+    if (!username || !age || !gender || !profileAvatar) {
+      alert("Please complete all fields.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await setDoc(doc(db, "users", user.uid), {
+        username,
+        age: Number(age),
+        gender,
+        profilePicUrl: profileAvatar,
+        email: user.email,
+        createdAt: new Date(),
+      });
+
+      alert("Profile setup successful!");
+      router.push("/"); // redirect to homepage or dashboard
+    } catch (err) {
+      console.error("Error saving profile:", err);
+      alert("Failed to save profile.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-5xl flex mx-auto items-center p-4 relative overflow-hidden">
       <div className="hidden absolute inset-0 z-0 overflow-hidden">
@@ -54,7 +96,7 @@ const Page = () => {
         </div>
 
         <div className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl flex flex-col p-8 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl">
-          <form className="flex flex-col gap-6">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <div>
               <label
                 htmlFor="username"
@@ -132,7 +174,11 @@ const Page = () => {
                     key={index}
                     src={src}
                     alt={`avatar-${index}`}
-                    className="w-36 h-36 object-cover rounded-full border cursor-pointer hover:scale-102 transition"
+                    className={`w-36 h-36 object-cover rounded-full border cursor-pointer transition hover:scale-105 ${
+                      profileAvatar === src
+                        ? "border-[#00A19C] border-4"
+                        : "border-white/10"
+                    }`}
                     onClick={() => setProfileAvatar(src)}
                   />
                 ))}
@@ -141,9 +187,10 @@ const Page = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="text-md font-bold py-2 rounded-lg bg-gradient-to-r from-white to-[#00A19C] text-black cursor-pointer disabled:opacity-50 transition-colors"
             >
-              Save Profile
+              {loading ? "Saving..." : "Save Profile"}
             </button>
           </form>
         </div>

@@ -32,6 +32,7 @@ const Authentication = ({
       if (authType.toLowerCase() === "sign up") {
         const userCred = await signUp(userEmail, userPassword);
         console.log("Signed up:", userCred.user.uid);
+        router.push("/profile-setup");
       } else {
         const userCred = await signIn(userEmail, userPassword);
         console.log("Logged in:", userCred.user.uid);
