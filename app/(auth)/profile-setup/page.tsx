@@ -1,9 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { auth, db } from "../../../lib/firebase"
+import { db } from "../../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+
+const getOrCreateAnonId = (): string => {
+  let anonId = localStorage.getItem("anon_id");
+  if (!anonId) {
+    anonId = crypto.randomUUID();
+    localStorage.setItem("anon_id", anonId);
+  }
+  return anonId;
+};
 
 const Page = () => {
   const router = useRouter();
@@ -39,15 +48,8 @@ const Page = () => {
       ? femaleAvatars
       : [...maleAvatars, ...femaleAvatars];
 
-  // ✅ handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const user = auth.currentUser;
-    if (!user) {
-      alert("You must be signed in to set up your profile.");
-      return;
-    }
 
     if (!username || !age || !gender || !profileAvatar) {
       alert("Please complete all fields.");
@@ -57,17 +59,23 @@ const Page = () => {
     try {
       setLoading(true);
 
-      await setDoc(doc(db, "users", user.uid), {
+      const anonId = getOrCreateAnonId();
+
+      const userProfile = {
+        id: anonId,
         username,
         age: Number(age),
         gender,
         profilePicUrl: profileAvatar,
-        email: user.email,
         createdAt: new Date(),
-      });
+      };
+
+      await setDoc(doc(db, "users", anonId), userProfile);
+
+      localStorage.setItem("anon_user", JSON.stringify(userProfile));
 
       alert("Profile setup successful!");
-      router.push("/"); // redirect to homepage or dashboard
+      router.push("/"); 
     } catch (err) {
       console.error("Error saving profile:", err);
       alert("Failed to save profile.");

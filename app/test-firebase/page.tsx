@@ -1,6 +1,7 @@
 "use client";
+
 import { useEffect, useState, useRef } from "react";
-import { db, auth } from "@/lib/firebase";
+import { db } from "@/lib/firebase";
 import { SendHorizontal, Trash2 } from "lucide-react";
 import {
   collection,
@@ -15,23 +16,37 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
+import { getAnonymousUser } from "@/lib/user";
 
 interface Message {
   text: string;
   createdAt: Date;
-  uid: string;
+  userId: string;
+  username: string;
+  avatar?: string;
 }
 
-export default function TestFirebasePage() {
+export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [user, setUser] = useState<any>(null);
   const userInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("anon_user");
+    if (!storedUser) {
+      alert("Please set up your profile first.");
+      window.location.href = "/profile-setup";
+      return;
+    }
+    setUser(JSON.parse(storedUser));
+  }, []);
 
   useEffect(() => {
     const q = query(
       collection(db, "messages"),
       orderBy("createdAt", "asc"),
-      orderBy("__name__", "asc") // if 2 or more msgs have same time-stamp
+      orderBy("__name__", "asc")
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -41,7 +56,9 @@ export default function TestFirebasePage() {
           return {
             text: d.text as string,
             createdAt: d.createdAt?.toDate?.() ?? new Date(),
-            uid: d.uid as string,
+            userId: d.userId as string,
+            username: d.username as string,
+            avatar: d.avatar as string,
           };
         }
       );
@@ -56,14 +73,20 @@ export default function TestFirebasePage() {
   }, [messages]);
 
   const addMessage = async () => {
-    if (userInputRef.current?.value?.trim()) {
-      await addDoc(collection(db, "messages"), {
-        text: userInputRef.current.value,
-        createdAt: serverTimestamp(), // use server time
-        uid: auth.currentUser?.uid,
-      });
-      userInputRef.current.value = "";
-    }
+    const inputEl = userInputRef.current;
+    if (!inputEl) return;
+    const value = inputEl.value.trim();
+    if (!value) return;
+
+    const user = getAnonymousUser();
+
+    await addDoc(collection(db, "messages"), {
+      text: value,
+      createdAt: serverTimestamp(),
+      uid: user.id,
+    });
+
+    inputEl.value = "";
   };
 
   const handleRemoveAll = async () => {
@@ -79,9 +102,7 @@ export default function TestFirebasePage() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      addMessage();
-    }
+    if (e.key === "Enter") addMessage();
   };
 
   return (
@@ -129,19 +150,27 @@ export default function TestFirebasePage() {
                 <div
                   key={i}
                   className={`flex w-full ${
-                    m.uid === auth.currentUser?.uid
-                      ? "justify-end"
-                      : "justify-start"
+                    m.userId === user?.id ? "justify-end" : "justify-start"
                   }`}
                 >
                   <div
-                    className={`px-4 py-2 rounded-lg max-w-xs break-words ${
-                      m.uid === auth.currentUser?.uid
+                    className={`px-4 py-2 rounded-lg max-w-xs break-words flex items-center gap-2 ${
+                      m.userId === user?.id
                         ? "bg-[#02e1da] text-black rounded-br-none ml-auto"
                         : "bg-white/5 border border-white/20 text-white rounded-bl-none mr-auto"
                     }`}
                   >
-                    {m.text}
+                    {m.avatar && (
+                      <img
+                        src={m.avatar}
+                        alt="avatar"
+                        className="w-6 h-6 rounded-full"
+                      />
+                    )}
+                    <div>
+                      <p className="text-xs opacity-70">{m.username}</p>
+                      <p>{m.text}</p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -156,7 +185,7 @@ export default function TestFirebasePage() {
               <input
                 ref={userInputRef}
                 type="text"
-                placeholder="Rant 🔥🔥🔥..."
+                placeholder="Say something..."
                 className="flex-1 min-w-0 px-4 py-2 outline-none text-black bg-white rounded"
                 onKeyDown={handleKeyDown}
               />

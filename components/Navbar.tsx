@@ -11,7 +11,7 @@ interface NavItem {
 }
 
 const Navbar = () => {
-  const [signedUp, setSignedUp] = useState(false);
+  const [profileSetup, setProfileSetup] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -48,13 +48,13 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center">
-          {!signedUp && (
-            <Link href={"/login"}>
+          {!profileSetup && (
+            <Link href={"/profile-setup"}>
               <button
                 className="hidden md:block bg-gradient-to-r from-white to-[#00A19C] text-black font-bold border-2 rounded-md text-[1.1rem] 
               px-5 py-1.5 cursor-pointer shadow-md shadow-white/10 hover:opacity-90 hover:shadow-lg transition-all"
               >
-                Sign Up
+                Profile setup
               </button>
             </Link>
           )}
@@ -90,13 +90,13 @@ const Navbar = () => {
               </Link>
             ))}
 
-            {!signedUp && (
-              <Link href={"/login"}>
+            {!profileSetup && (
+              <Link href={"/profile-setup"}>
                 <button
                   className="block w-full md:hidden bg-gradient-to-r from-white to-[#00A19C] text-black font-bold border-2 rounded-md 
               text-[1.1rem] px-4 py-1.5 cursor-pointer shadow-md shadow-white/10 hover:opacity-90 hover:shadow-lg transition-all"
                 >
-                  Sign up
+                  Profile setup
                 </button>
               </Link>
             )}
