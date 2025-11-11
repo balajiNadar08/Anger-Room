@@ -124,13 +124,15 @@ export default function Home() {
               communication.
             </p>
           </div>
-          <button
-            className="text-[#0A0A0A] text-base md:text-lg font-semibold rounded-full border-2 border-gray-800 bg-gradient-to-r from-white to-[#00A19C] 
+          <Link href={"/chat"}>
+            <button
+              className="text-[#0A0A0A] text-base md:text-lg font-semibold rounded-full border-2 border-gray-800 bg-gradient-to-r from-white to-[#00A19C] 
             py-3 px-8 md:py-3 md:px-10 cursor-pointer hover:-translate-y-1 transition-all ease-in-out duration-500
             active:scale-95 touch-manipulation"
-          >
-            Start Ranting 😁
-          </button>
+            >
+              Start Ranting 😁
+            </button>
+          </Link>
         </div>
       </div>
 
