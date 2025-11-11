@@ -39,9 +39,16 @@ export default function Home() {
 
       <div className="flex items-center justify-center w-full px-4 md:px-6 lg:px-8">
         <div
-          className="bg-gradient-to-tl from-[#FFF] to-[#00A19C] h-64 md:h-80 lg:h-[40rem] 
-        w-full md:w-[85%] lg:w-[70%] rounded-xl md:rounded-2xl"
-        ></div>
+          className="relative bg-gradient-to-tl from-[#FFF] to-[#00A19C]
+            h-[40rem] w-full md:w-[85%] lg:w-[70%]
+            rounded-xl md:rounded-2xl flex items-center justify-center overflow-hidden"
+        >
+          <img
+            src="/assets/chat-mockup.png"
+            alt="Anonymous chat mockup"
+            className="max-h-[90%] w-auto object-contain rounded-xl shadow-2xl transition-transform duration-300 hover:scale-[1.02]"
+          />
+        </div>
       </div>
 
       <div className="flex flex-col items-center pt-24 md:pt-30 lg:pb-8 px-4 md:px-8">

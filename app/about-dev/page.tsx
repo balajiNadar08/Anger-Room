@@ -1,4 +1,4 @@
-import { Github, Instagram, MoveLeft } from "lucide-react"; 
+import { Github, Instagram, MoveLeft } from "lucide-react";
 import Link from "next/link";
 
 const page = () => {
@@ -21,9 +21,8 @@ const page = () => {
             Hi, I'm <span className="font-bold text-cyan-300">Balaji</span>, the
             developer of{" "}
             <span className="font-bold text-cyan-300">AngerRoom</span>. I'm a
-            full-stack developer passionate about creating beautiful, functional
-            and user-friendly applications that I intend to use and share with
-            the world.
+            full-stack web developer passionate about creating fun applications
+            that I intend to use and share with the world.
           </p>
           <p>
             {" "}

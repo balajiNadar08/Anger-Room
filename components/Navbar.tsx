@@ -27,7 +27,7 @@ const Navbar = () => {
     <div className="fixed top-0 left-0 w-full bg-white/5 backdrop-blur-md border border-white/10 z-20 shadow-lg ">
       <div className="flex items-center justify-between px-6 py-3">
         <Link href="/">
-          <h1 className="text-3xl text-[#FFF] font-bold">AngerChat</h1>
+          <h1 className="text-3xl text-[#FFF] font-bold">AngerRoom</h1>
         </Link>
 
         <div className="hidden md:flex gap-8">
