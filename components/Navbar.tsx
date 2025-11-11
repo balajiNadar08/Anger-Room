@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const navItems: NavItem[] = [
     { label: "Home", href: "/" },
-    { label: "Chat", href: "/test-firebase" },
+    { label: "Chat", href: "/chat" },
     // { label: "Chat", href: "/chat" },
     { label: "About DEV", href: "/about-dev" },
     { label: "Report", href: "/report" },

@@ -1,23 +1,20 @@
 export interface AnonymousUser {
   id: string;
-  name?: string;
-  avatar?: string;
-  createdAt: number;
+  username: string;
+  age: number;
+  gender: string;
+  profilePicUrl: string;
+  createdAt: Date | number;
 }
 
-export const getAnonymousUser = (): AnonymousUser => {
+export const getAnonymousUser = (): AnonymousUser | null => {
   const existing = localStorage.getItem("anon_user");
   if (existing) {
     return JSON.parse(existing);
   }
+  return null;
+};
 
-  const newUser: AnonymousUser = {
-    id: crypto.randomUUID(), 
-    name: `Guest-${Math.floor(Math.random() * 10000)}`,
-    avatar: "",
-    createdAt: Date.now(),
-  };
-
-  localStorage.setItem("anon_user", JSON.stringify(newUser));
-  return newUser;
+export const hasUserProfile = (): boolean => {
+  return localStorage.getItem("anon_user") !== null;
 };

@@ -51,7 +51,7 @@ const page = () => {
 
       <div>
         <Link
-          href={"/test-firebase"}
+          href={"/chat"}
           className=" flex items-center text-lg font-bold px-6 py-2 rounded-3xl bg-gradient-to-r from-white to-[#00A19C] text-black cursor-pointer"
         >
           <MoveLeft className="inline mr-2" /> Back to Chat

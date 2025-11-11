@@ -6,12 +6,17 @@ import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
 const getOrCreateAnonId = (): string => {
-  let anonId = localStorage.getItem("anon_id");
-  if (!anonId) {
-    anonId = crypto.randomUUID();
-    localStorage.setItem("anon_id", anonId);
+  try {
+    let anonId = localStorage.getItem("anon_id");
+    if (!anonId) {
+      anonId = crypto.randomUUID();
+      localStorage.setItem("anon_id", anonId);
+    }
+    return anonId;
+  } catch (error) {
+    console.error("Error with localStorage:", error);
+    return `anon-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
-  return anonId;
 };
 
 const Page = () => {
@@ -22,6 +27,7 @@ const Page = () => {
   const [gender, setGender] = useState("");
   const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const maleAvatars = [
     "/avatar/male/male-pfp-1.webp",
@@ -50,9 +56,16 @@ const Page = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
 
     if (!username || !age || !gender || !profileAvatar) {
-      alert("Please complete all fields.");
+      setError("Please complete all fields.");
+      return;
+    }
+
+    const ageNum = Number(age);
+    if (isNaN(ageNum) || ageNum < 1 || ageNum > 120) {
+      setError("Please enter a valid age between 1 and 120.");
       return;
     }
 
@@ -63,22 +76,42 @@ const Page = () => {
 
       const userProfile = {
         id: anonId,
-        username,
-        age: Number(age),
+        username: username.trim(),
+        age: ageNum,
         gender,
         profilePicUrl: profileAvatar,
         createdAt: new Date(),
       };
 
-      await setDoc(doc(db, "users", anonId), userProfile);
+      console.log("Attempting to save profile:", userProfile);
 
-      localStorage.setItem("anon_user", JSON.stringify(userProfile));
+      try {
+        localStorage.setItem("anon_user", JSON.stringify(userProfile));
+        console.log("✅ Profile saved to localStorage");
+      } catch (localStorageError) {
+        console.error("localStorage error:", localStorageError);
+        setError("Failed to save profile locally. Please check your browser settings.");
+        setLoading(false);
+        return;
+      }
 
+      try {
+        await setDoc(doc(db, "users", anonId), userProfile);
+        console.log("Profile saved to Firestore");
+      } catch (firestoreError: any) {
+        console.error("Firestore error:", firestoreError);
+        console.error("Error code:", firestoreError?.code);
+        console.error("Error message:", firestoreError?.message);
+        
+        console.warn("Firestore save failed, but localStorage succeeded");
+      }
+      
       alert("Profile setup successful!");
-      router.push("/"); 
-    } catch (err) {
-      console.error("Error saving profile:", err);
-      alert("Failed to save profile.");
+      router.push("/chat");
+      
+    } catch (err: any) {
+      console.error("Unexpected error:", err);
+      setError(`Failed to save profile: ${err?.message || "Unknown error"}`);
     } finally {
       setLoading(false);
     }
@@ -103,6 +136,12 @@ const Page = () => {
           </p>
         </div>
 
+        {error && (
+          <div className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-200">
+            <p className="text-sm">{error}</p>
+          </div>
+        )}
+
         <div className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl flex flex-col p-8 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl">
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <div>
@@ -118,6 +157,7 @@ const Page = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                maxLength={30}
                 className="block w-full rounded text-md px-3 py-2 bg-white/5 border border-white/10 outline-none focus:border-[#00A19C] transition-colors text-white"
                 placeholder="Enter your username"
               />
@@ -137,6 +177,8 @@ const Page = () => {
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
                   required
+                  min="1"
+                  max="120"
                   className="block w-full rounded text-md px-3 py-2 bg-white/5 border border-white/10 outline-none focus:border-[#00A19C] transition-colors text-white"
                   placeholder="Your age"
                 />
@@ -154,6 +196,7 @@ const Page = () => {
                   id="gender"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
+                  required
                   className="w-full block rounded text-md px-3 py-2 bg-white/5 border border-white/10 outline-none focus:border-[#00A19C] transition-colors h-[42px] text-white"
                 >
                   <option value="" disabled className="text-gray-500">
@@ -176,13 +219,13 @@ const Page = () => {
               <p className="text-sm text-gray-300 block mt-4">
                 Select your profile avatar
               </p>
-              <div className="my-4 grid grid-cols-3 gap-12">
+              <div className="my-4 grid grid-cols-3 gap-4 sm:gap-8 md:gap-12">
                 {displayedAvatars.map((src, index) => (
                   <img
                     key={index}
                     src={src}
                     alt={`avatar-${index}`}
-                    className={`w-36 h-36 object-cover rounded-full border cursor-pointer transition hover:scale-105 ${
+                    className={`w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 object-cover rounded-full border cursor-pointer transition hover:scale-105 ${
                       profileAvatar === src
                         ? "border-[#00A19C] border-4"
                         : "border-white/10"
