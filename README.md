@@ -1,23 +1,22 @@
-# AngerRoom 😤💥
+# AngerRoom
 
 A safe digital space to **rant your frustration, share your thoughts anonymously, and cool off** — inspired by real-world rage rooms. AngerRoom provides an online alternative where users can freely express themselves without judgment.
 
 ---
 
-## 🚀 Features
+## Features
 
-* ✍️ **Anonymous Ranting** – Share your emotions without revealing your identity.
-* 📝 **Community Feedback** – See what others think and get supportive responses.
-* 🌑 **Minimal, Calm UI** – Built for distraction-free venting.
-* 📊 **Mock Feedback Section** – Demonstrates potential community interactions.
+* **Anonymous Ranting** – Share your emotions without revealing your identity.
+* **Community Feedback** – See what others think and get supportive responses.
+* **Minimal, Calm UI** – Built for distraction-free venting.
+* **Mock Feedback Section** – Demonstrates potential community interactions.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Frontend:** Next.js / React.js, Tailwind CSS, Framer Motion
-* **Backend:** (to be decided – Firebase / Node.js / Express suggested)
-* **Database:** Firebase / MongoDB (configurable)
+* **Backend:** Firebase
 
 ---
 
@@ -33,13 +32,6 @@ AngerRoom/
 ```
 
 ---
-
-## ⚡ Getting Started
-
-### Prerequisites
-
-* Node.js (>= 18.x recommended)
-* npm or yarn
 
 ### Installation
 
@@ -68,7 +60,7 @@ Open [http://localhost:3000](http://localhost:3000) to view in your browser.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome!
 
@@ -79,6 +71,6 @@ Contributions are welcome!
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the **MIT License**.
