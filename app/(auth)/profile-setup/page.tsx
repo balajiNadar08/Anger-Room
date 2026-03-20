@@ -51,8 +51,8 @@ const Page = () => {
     gender === "male"
       ? maleAvatars
       : gender === "female"
-      ? femaleAvatars
-      : [...maleAvatars, ...femaleAvatars];
+        ? femaleAvatars
+        : [...maleAvatars, ...femaleAvatars];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,7 +90,9 @@ const Page = () => {
         console.log("✅ Profile saved to localStorage");
       } catch (localStorageError) {
         console.error("localStorage error:", localStorageError);
-        setError("Failed to save profile locally. Please check your browser settings.");
+        setError(
+          "Failed to save profile locally. Please check your browser settings.",
+        );
         setLoading(false);
         return;
       }
@@ -102,13 +104,12 @@ const Page = () => {
         console.error("Firestore error:", firestoreError);
         console.error("Error code:", firestoreError?.code);
         console.error("Error message:", firestoreError?.message);
-        
+
         console.warn("Firestore save failed, but localStorage succeeded");
       }
-      
+
       alert("Profile setup successful!");
       router.push("/chat");
-      
     } catch (err: any) {
       console.error("Unexpected error:", err);
       setError(`Failed to save profile: ${err?.message || "Unknown error"}`);
