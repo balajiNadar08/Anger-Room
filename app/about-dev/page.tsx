@@ -4,12 +4,8 @@ import Link from "next/link";
 const page = () => {
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col mt-[0.5rem] gap-[1rem] px-4 py-20 items-center">
-      {/* <div className="text-2xl font-bold self-start">
-        <h1>About DEVELOPER</h1>
-      </div> */}
-
       <div>
-        <div className="">
+        <div>
           <img
             className="rounded h-100 mx-auto mb-8"
             src="/assets/dev-img.webp"
